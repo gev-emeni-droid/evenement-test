@@ -15,10 +15,16 @@ export const onRequestGet = async ({ env }) => {
     // Si c'est du Base64 data:image/...;base64,xxx, on le convertit en fichier
     if (logo.startsWith('data:')) {
       const [header, data] = logo.split(',');
-      const mimeType = header.match(/data:([^;]+)/)?.[1] || 'image/png';
-      const buffer = Buffer.from(data, 'base64');
+      const mimeType = header.match(/data:([^;]+)/)?.[1] || 'image/jpeg';
       
-      return new Response(buffer, {
+      // Convertir Base64 en Uint8Array (compatible Cloudflare Workers)
+      const binaryString = atob(data);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      
+      return new Response(bytes, {
         headers: {
           'content-type': mimeType,
           'cache-control': 'max-age=86400', // Cache 24h
