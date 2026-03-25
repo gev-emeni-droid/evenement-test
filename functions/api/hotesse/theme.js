@@ -66,10 +66,10 @@ export const onRequestGet = async ({ env }) => {
       }
     }
     
-    // Default to navy if no theme found
-    console.log('No theme found anywhere, returning default navy');
+    // Default to deep-navy if no theme found
+    console.log('No theme found anywhere, returning default deep-navy');
     return new Response(
-      JSON.stringify({ ok: true, theme_id: 'navy', source: 'default' }),
+      JSON.stringify({ ok: true, theme_id: 'deep-navy', source: 'default' }),
       {
         headers: {
           'content-type': 'application/json',
