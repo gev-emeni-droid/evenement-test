@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR_PALETTES } from '../themes.js';
+import { COLOR_PALETTES, applyTheme } from '../themes.js';
 
 export default function ClientsPage() {
   const navigate = useNavigate();
@@ -25,6 +25,11 @@ export default function ClientsPage() {
         const data = await res.json();
         if (data.ok && data.theme_id) {
           setSelectedTheme(data.theme_id);
+          // Apply theme to CSS
+          const palette = COLOR_PALETTES.find(p => p.id === data.theme_id);
+          if (palette) {
+            applyTheme(palette);
+          }
         }
       } catch (e) {
         console.error('Error loading theme:', e);
