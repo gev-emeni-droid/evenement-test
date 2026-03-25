@@ -4,7 +4,7 @@ export async function onRequest(context) {
   }
 
   try {
-    const { email, subject, message, calendarUrl } = await context.request.json();
+    const { email, subject, message, calendarUrl, themeColor } = await context.request.json();
 
     if (!email || !subject || !message) {
       return new Response(
@@ -36,7 +36,7 @@ export async function onRequest(context) {
             .greeting { margin-bottom: 20px; font-size: 16px; }
             .message { margin: 20px 0; font-size: 16px; }
             .link-section { margin: 30px 0; text-align: center; }
-            .cta-button { display: inline-block; padding: 12px 24px; background-color: #555555; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+            .cta-button { display: inline-block; padding: 12px 24px; background-color: ${themeColor || '#007bff'}; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
             .footer { margin-top: 40px; text-align: center; padding-top: 20px; border-top: 1px solid #eee; }
             .logo-container { text-align: center; margin-top: 30px; }
             .logo-container img { max-width: 100px; width: 100%; height: auto; display: block; margin: 0 auto; }

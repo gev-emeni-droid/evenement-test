@@ -684,6 +684,10 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     const title = selectedCalendar.title || `Calendrier ${selectedCalendar.month + 1}/${selectedCalendar.year}`;
     const message = `Le calendrier "${title}" vient d'être mis à jour.`;
     const whatsappMessage = `Le calendrier "${title}" vient d'être mis à jour.\n\nLien : ${calendarUrl}`;
+    
+    // Récupérer la couleur du thème actuel
+    const currentPalette = COLOR_PALETTES.find(p => p.id === selectedTheme);
+    const themeColor = currentPalette?.colors.primary || '#007bff';
 
     notifContacts
       .filter((c) => selectedNotifIds.includes(c.id))
@@ -709,6 +713,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   subject: subject,
                   message: message,
                   calendarUrl: calendarUrl,
+                  themeColor: themeColor,
                 }),
               });
             } catch (error) {
