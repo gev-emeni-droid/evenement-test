@@ -23,9 +23,6 @@ export async function onRequest(context) {
 
     // Utiliser le logo passé en paramètre, ou celui de la DB
     const finalLogo = logo || dbLogo;
-    
-    // Construire l'URL du logo API (accessible publiquement)
-    const logoUrl = finalLogo ? `${new URL(context.request.url).origin}/api/hotesse/logo` : null;
 
     // Construire le HTML du mail avec logo en bas au centre
     let htmlContent = `
@@ -43,7 +40,7 @@ export async function onRequest(context) {
             .cta-button { display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
             .footer { margin-top: 40px; text-align: center; padding-top: 20px; border-top: 1px solid #eee; }
             .logo-container { text-align: center; margin-top: 30px; }
-            .logo-container img { max-width: 120px; height: auto; width: 100%; display: block; }
+            .logo-container img { max-width: 100px; width: 100%; height: auto; display: block; margin: 0 auto; }
           </style>
         </head>
         <body>
@@ -59,7 +56,7 @@ export async function onRequest(context) {
                 <a href="${calendarUrl || '#'}" class="cta-button">Consulter le calendrier</a>
               </div>
               <div class="footer">
-                ${logoUrl ? `<div class="logo-container"><img src="${logoUrl}" alt="Logo" style="max-width: 120px; height: auto;"></div>` : ''}
+                ${finalLogo ? `<div class="logo-container"><img src="${finalLogo}" alt="Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;"></div>` : ''}
               </div>
             </div>
           </div>

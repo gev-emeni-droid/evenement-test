@@ -599,8 +599,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         img.onload = () => {
           // Créer un canvas pour compresser l'image
           const canvas = document.createElement('canvas');
-          const maxWidth = 200;
-          const maxHeight = 200;
+          const maxWidth = 120;
+          const maxHeight = 120;
           let width = img.width;
           let height = img.height;
 
@@ -622,8 +622,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Convertir en Base64 avec meilleure qualité
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.9);
+          // Convertir en Base64 avec qualité réduite pour email
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
           setCustomLogo(compressedBase64);
           // Sauvegarder en BD
           saveLogo(compressedBase64);
