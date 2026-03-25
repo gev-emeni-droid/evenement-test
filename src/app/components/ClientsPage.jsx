@@ -15,7 +15,7 @@ export default function ClientsPage() {
   const [clientDetails, setClientDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
-  const themeColor = COLOR_PALETTES.find(p => p.id === selectedTheme)?.colors?.primary || '#163667';
+  const themeColor = COLOR_PALETTES.find(p => p.id === selectedTheme)?.primary || '#163667';
 
   // Load theme from API on mount
   useEffect(() => {
