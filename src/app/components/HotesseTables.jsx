@@ -58,6 +58,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
   const [viewMode, setViewMode] = useState('monthly'); // 'monthly' or 'weekly'
   const [weekIndex, setWeekIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsActiveTab, setSettingsActiveTab] = useState('profil'); // 'profil' or 'staff'
   const [selectedTheme, setSelectedTheme] = useState('navy');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -2308,8 +2309,100 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-5"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-base font-semibold text-[#163667] mb-3">Paramètres des calendriers</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <h3 className="text-base font-semibold text-[#163667] mb-4">Paramètres des calendriers</h3>
+              {/* Onglets */}
+              <div className="flex gap-2 border-b border-gray-200 mb-4">
+                <button
+                  onClick={() => setSettingsActiveTab('profil')}
+                  className={`px-4 py-2 font-semibold text-sm border-b-2 transition-colors ${
+                    settingsActiveTab === 'profil'
+                      ? 'border-[#163667] text-[#163667]'
+                      : 'border-transparent text-gray-600 hover:text-[#163667]'
+                  }`}
+                >
+                  📝 Profil
+                </button>
+                <button
+                  onClick={() => setSettingsActiveTab('staff')}
+                  className={`px-4 py-2 font-semibold text-sm border-b-2 transition-colors ${
+                    settingsActiveTab === 'staff'
+                      ? 'border-[#163667] text-[#163667]'
+                      : 'border-transparent text-gray-600 hover:text-[#163667]'
+                  }`}
+                >
+                  👥 Hôtesses & Commercial
+                </button>
+              </div>
+
+              {/* Onglet Profil */}
+              {settingsActiveTab === 'profil' && (
+                <div className="space-y-4 mb-4">
+                  {selectedCalendar && (
+                    <div>
+                      <h4 className="text-xs font-semibold text-gray-700 mb-2">Titre du calendrier</h4>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white"
+                            value={settingsTitlePrefix}
+                            onChange={(e) => setSettingsTitlePrefix(e.target.value)}
+                            placeholder="Ex : Privatisation du mois de"
+                          />
+                          <span className="text-xs text-gray-600 whitespace-nowrap">
+                            {getCalendarSuffix(selectedCalendar)}
+                          </span>
+                        </div>
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={handleSaveTitlePrefix}
+                            className="text-xs font-semibold py-1.5 px-3 rounded-lg bg-[#163667] text-white hover:bg-opacity-90"
+                          >
+                            Enregistrer le titre
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div>
+                    <h4 className="text-xs font-semibold text-gray-700 mb-2">🎨 Palette de couleurs</h4>
+                    <select 
+                      value={selectedTheme} 
+                      onChange={(e) => handleSaveTheme(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                    >
+                      <optgroup label="Classique">
+                        {COLOR_PALETTES.filter(p => p.category === 'Classique').map(palette => (
+                          <option key={palette.id} value={palette.id}>{palette.name}</option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Pastel">
+                        {COLOR_PALETTES.filter(p => p.category === 'Pastel').map(palette => (
+                          <option key={palette.id} value={palette.id}>{palette.name}</option>
+                        ))}
+                      </optgroup>
+                    </select>
+                    
+                    {(() => {
+                      const palette = COLOR_PALETTES.find(p => p.id === selectedTheme);
+                      return palette ? (
+                        <div className="mt-2 flex gap-2">
+                          <div className="flex-1 p-2 rounded border text-xs text-white font-semibold text-center" style={{ backgroundColor: palette.primary }}>Primary</div>
+                          <div className="flex-1 p-2 rounded border text-xs font-semibold text-center" style={{ backgroundColor: palette.secondary, color: palette.primary }}>Secondary</div>
+                          <div className="flex-1 p-2 rounded border text-xs text-white font-semibold text-center" style={{ backgroundColor: palette.accent }}>Accent</div>
+                          <div className="flex-1 p-2 rounded border text-xs font-semibold text-center" style={{ backgroundColor: palette.background }}>BG</div>
+                        </div>
+                      ) : null;
+                    })()}
+                  </div>
+                </div>
+              )}
+
+              {/* Onglet Hôtesses & Commercial */}
+              {settingsActiveTab === 'staff' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <h4 className="text-xs font-semibold text-gray-700 mb-2">Noms des hôtesses</h4>
                   <form onSubmit={handleAddHostess} className="flex gap-2 mb-2">
@@ -2388,68 +2481,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                     )}
                   </div>
                 </div>
-                {selectedCalendar && (
-                  <div className="md:col-span-2 mt-4">
-                    <h4 className="text-xs font-semibold text-gray-700 mb-2">Titre du calendrier sélectionné</h4>
-                    <div className="flex flex-col gap-1">
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white"
-                          value={settingsTitlePrefix}
-                          onChange={(e) => setSettingsTitlePrefix(e.target.value)}
-                          placeholder="Ex : Privatisation du mois de"
-                        />
-                        <span className="text-xs text-gray-600 whitespace-nowrap">
-                          {getCalendarSuffix(selectedCalendar)}
-                        </span>
-                      </div>
-                      <div className="flex justify-end">
-                        <button
-                          type="button"
-                          onClick={handleSaveTitlePrefix}
-                          className="text-xs font-semibold py-1.5 px-3 rounded-lg bg-[#163667] text-white hover:bg-opacity-90"
-                        >
-                          Enregistrer le titre
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div className="md:col-span-2 mt-4">
-                  <h4 className="text-xs font-semibold text-gray-700 mb-2">🎨 Palette de couleurs</h4>
-                  <select 
-                    value={selectedTheme} 
-                    onChange={(e) => handleSaveTheme(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-                  >
-                    {/* Classical Palettes */}
-                    <optgroup label="Classique">
-                      {COLOR_PALETTES.filter(p => p.category === 'Classique').map(palette => (
-                        <option key={palette.id} value={palette.id}>{palette.name}</option>
-                      ))}
-                    </optgroup>
-                    {/* Pastel Palettes */}
-                    <optgroup label="Pastel">
-                      {COLOR_PALETTES.filter(p => p.category === 'Pastel').map(palette => (
-                        <option key={palette.id} value={palette.id}>{palette.name}</option>
-                      ))}
-                    </optgroup>
-                  </select>
-                  
-                  {/* Theme Preview */}
-                  {(() => {
-                    const palette = COLOR_PALETTES.find(p => p.id === selectedTheme);
-                    return palette ? (
-                      <div className="mt-2 flex gap-2">
-                        <div className="flex-1 p-2 rounded border text-xs text-white font-semibold text-center" style={{ backgroundColor: palette.primary }}>Primary</div>
-                        <div className="flex-1 p-2 rounded border text-xs font-semibold text-center" style={{ backgroundColor: palette.secondary, color: palette.primary }}>Secondary</div>
-                        <div className="flex-1 p-2 rounded border text-xs text-white font-semibold text-center" style={{ backgroundColor: palette.accent }}>Accent</div>
-                        <div className="flex-1 p-2 rounded border text-xs font-semibold text-center" style={{ backgroundColor: palette.background }}>BG</div>
-                      </div>
-                    ) : null;
-                  })()}
-                </div>
+
                 <div className="md:col-span-2 mt-4">
                   <h4 className="text-xs font-semibold text-gray-700 mb-2">Contacts de notification</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3 text-xs">
@@ -2532,7 +2564,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                     ))}
                   </div>
                 </div>
-              </div>
+              )}
+
               <div className="flex justify-end gap-2 text-sm">
                 <button
                   type="button"
