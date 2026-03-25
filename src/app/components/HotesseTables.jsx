@@ -652,7 +652,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
     const calendarUrl = `${baseUrl}/hotesse/${selectedCalendar.id}`;
     const title = selectedCalendar.title || `Calendrier ${selectedCalendar.month + 1}/${selectedCalendar.year}`;
-    const message = `Le calendrier "${title}" vient d'être mis à jour.\n\nLien : ${calendarUrl}`;
+    const message = `Le calendrier "${title}" vient d'être mis à jour.`;
+    const whatsappMessage = `Le calendrier "${title}" vient d'être mis à jour.\n\nLien : ${calendarUrl}`;
 
     notifContacts
       .filter((c) => selectedNotifIds.includes(c.id))
@@ -660,7 +661,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         const channel = notifChannelById[contact.id] || 'auto';
         if (channel === 'auto' || channel === 'whatsapp') {
           if (contact.phone) {
-            const waUrl = `https://wa.me/${encodeURIComponent(contact.phone)}?text=${encodeURIComponent(message)}`;
+            const waUrl = `https://wa.me/${encodeURIComponent(contact.phone)}?text=${encodeURIComponent(whatsappMessage)}`;
             if (typeof window !== 'undefined') {
               window.open(waUrl, '_blank', 'noopener,noreferrer');
             }
@@ -669,7 +670,6 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         if (channel === 'auto' || channel === 'email') {
           if (contact.email) {
             const subject = `Calendrier mis à jour - ${title}`;
-            const htmlMessage = `<p>Le calendrier "${title}" vient d'être mis à jour.</p><p><a href="${calendarUrl}">Consulter le calendrier</a></p>`;
             try {
               await fetch('/api/hotesse/send-notification', {
                 method: 'POST',
@@ -677,7 +677,9 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                 body: JSON.stringify({
                   email: contact.email,
                   subject: subject,
-                  message: htmlMessage,
+                  message: message,
+                  calendarUrl: calendarUrl,
+                  logo: customLogo,
                 }),
               });
             } catch (error) {
