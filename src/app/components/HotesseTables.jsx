@@ -60,7 +60,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
   const [weekIndex, setWeekIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settingsActiveTab, setSettingsActiveTab] = useState('profil'); // 'profil' or 'staff'
-  const [selectedTheme, setSelectedTheme] = useState('navy');
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [themeLoaded, setThemeLoaded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -223,7 +224,10 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
             applyTheme(palette);
           }
         }
-      } catch (_) {}
+      } catch (_) {
+      } finally {
+        setThemeLoaded(true);
+      }
     })();
   }, []);
 
@@ -776,7 +780,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     
     // Récupérer la couleur du thème actuel
     const currentPalette = COLOR_PALETTES.find(p => p.id === selectedTheme);
-    const themeColor = currentPalette?.colors?.primary || '#007bff';
+    const themeColor = themeLoaded && currentPalette?.primary ? currentPalette.primary : '#ccc';
 
     const contactsToNotify = notifContacts.filter((c) => selectedNotifIds.includes(c.id));
     

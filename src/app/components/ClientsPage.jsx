@@ -4,7 +4,8 @@ import { COLOR_PALETTES, applyTheme } from '../themes.js';
 
 export default function ClientsPage() {
   const navigate = useNavigate();
-  const [selectedTheme, setSelectedTheme] = useState('navy');
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [themeLoaded, setThemeLoaded] = useState(false);
   
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,9 @@ export default function ClientsPage() {
   const [clientDetails, setClientDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
-  const themeColor = COLOR_PALETTES.find(p => p.id === selectedTheme)?.primary || '#163667';
+  const themeColor = themeLoaded && selectedTheme 
+    ? (COLOR_PALETTES.find(p => p.id === selectedTheme)?.primary || '#ccc') 
+    : '#ccc';
 
   // Load theme from API on mount
   useEffect(() => {
@@ -36,8 +39,10 @@ export default function ClientsPage() {
             console.warn('Palette not found for', data.theme_id);
           }
         }
+        setThemeLoaded(true);
       } catch (e) {
         console.error('Error loading theme:', e);
+        setThemeLoaded(true);
       }
     };
 
@@ -245,6 +250,8 @@ export default function ClientsPage() {
 
   return (
     <div className="p-6 bg-white rounded-lg">
+      {themeLoaded && (
+      <>
       <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <h1 className="text-4xl font-bold" style={{ color: themeColor }}>Fichiers Clients</h1>
         <button
@@ -353,6 +360,8 @@ export default function ClientsPage() {
             </button>
           </div>
         </>
+      )}
+      </>
       )}
     </div>
   );
