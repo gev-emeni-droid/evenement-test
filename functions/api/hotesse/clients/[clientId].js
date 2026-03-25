@@ -76,25 +76,21 @@ async function handleGet(db, clientId) {
     for (const priv of privs.results || []) {
       // Get documents for this privatisation
       const docs = await db.prepare(`
-        SELECT id, file_name, mime_type, file_size, uploaded_at, uploaded_by
+        SELECT id, file_name, mime_type, file_size, file_data, uploaded_at, uploaded_by
         FROM hotesse_privatisations_documents
         WHERE priv_id = ?
         ORDER BY uploaded_at DESC
       `).bind(priv.id).all();
 
+      // Map documents to include file_type for frontend compatibility
+      const mappedDocs = (docs.results || []).map(doc => ({
+        ...doc,
+        file_type: doc.mime_type
+      }));
+
       privatisations.push({
         ...priv,
-        documents: docs.results || []
-      });
-    }
-
-    return new Response(JSON.stringify({
-      client,
-      privatisations
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+        documents: mappedDocs
   } catch (error) {
     console.error('Error fetching client details:', error);
     return new Response(JSON.stringify({ error: error.message }), {

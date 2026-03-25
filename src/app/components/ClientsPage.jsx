@@ -114,7 +114,9 @@ export default function ClientsPage() {
 
   const downloadDocument = (doc) => {
     try {
+      console.log('Downloading document:', doc);
       if (!doc.file_data) {
+        console.error('Document missing file_data:', doc);
         alert('Document non disponible');
         return;
       }
@@ -137,6 +139,7 @@ export default function ClientsPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
+      console.log('Document downloaded successfully');
     } catch (error) {
       console.error('Error downloading document:', error);
       alert('Erreur lors du téléchargement');
