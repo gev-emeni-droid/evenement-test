@@ -92,6 +92,11 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
   const [clientMail, setClientMail] = useState('');
   const [clientTelephone, setClientTelephone] = useState('');
   const [clientAdresse, setClientAdresse] = useState('');
+  
+  // Autocomplete state for clients
+  const [clientSearchResults, setClientSearchResults] = useState([]);
+  const [showClientSearch, setShowClientSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Form state pour Documents
   const [privDocuments, setPrivDocuments] = useState([]);
@@ -1162,6 +1167,39 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     } catch (err) {
       console.error('Error downloading document:', err);
     }
+  };
+
+  // Search for existing clients by nom/prenom
+  const searchClients = async (query) => {
+    if (!query.trim() || query.length < 1) {
+      setClientSearchResults([]);
+      setShowClientSearch(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/hotesse/clients/search?q=${encodeURIComponent(query)}&limit=10`);
+      if (!res.ok) throw new Error('Search failed');
+      
+      const clients = await res.json();
+      setClientSearchResults(clients || []);
+      setShowClientSearch(clients.length > 0);
+    } catch (err) {
+      console.error('Error searching clients:', err);
+      setClientSearchResults([]);
+    }
+  };
+
+  // Select a client from search results
+  const selectClient = (client) => {
+    setClientNom(client.nom);
+    setClientPrenom(client.prenom);
+    setClientMail(client.mail || '');
+    setClientTelephone(client.telephone || '');
+    setClientAdresse(client.adresse_postale || '');
+    setSearchQuery(`${client.prenom} ${client.nom}`);
+    setShowClientSearch(false);
+    setClientSearchResults([]);
   };
 
   // Supprimer un document
@@ -2534,8 +2572,6 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                       ? 'text-[#163667] border-b-2 border-[#163667]'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
-                  disabled={!editingPriv}
-                  title={!editingPriv ? 'Créer d\'abord la privatisation' : ''}
                 >
                   Infos client
                 </button>
@@ -2546,8 +2582,6 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                       ? 'text-[#163667] border-b-2 border-[#163667]'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
-                  disabled={!editingPriv}
-                  title={!editingPriv ? 'Créer d\'abord la privatisation' : ''}
                 >
                   Documents
                 </button>
@@ -2715,6 +2749,37 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               {/* Onglet Infos client */}
               {privModalActiveTab === 'infos_client' && (
                 <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-xs text-gray-700 mb-2 font-medium">🔍 RECHERCHER UN CLIENT</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Tapez nom ou prénom..."
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#163667]"
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          searchClients(e.target.value);
+                        }}
+                        onFocus={() => searchQuery.trim() && searchClients(searchQuery)}
+                      />
+                      {showClientSearch && clientSearchResults.length > 0 && (
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto">
+                          {clientSearchResults.map((client) => (
+                            <button
+                              key={client.id}
+                              type="button"
+                              onClick={() => selectClient(client)}
+                              className="w-full text-left px-3 py-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0 text-sm"
+                            >
+                              <strong>{client.prenom} {client.nom}</strong> • {client.telephone}
+                              {client.entreprise && <div className="text-xs text-gray-500">{client.entreprise}</div>}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   <div>
                     <label className="block text-xs text-gray-700 mb-2 font-medium">NOM</label>
                     <input

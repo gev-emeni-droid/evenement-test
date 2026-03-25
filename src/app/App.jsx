@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { getStoredTheme, applyTheme } from './themes.js';
 import HotesseTables from './components/HotesseTables.jsx';
 import ClientsPage from './components/ClientsPage.jsx';
-import { COLOR_PALETTES } from './themes.js';
 
 const App = () => {
     // Load and apply theme on mount
@@ -23,7 +22,7 @@ const App = () => {
                 <Route path="/hotesse" element={<HotesseTables onLogout={handleLogout} />} />
                 <Route path="/hotesse/:calendarId" element={<HotesseTables onLogout={handleLogout} />} />
                 <Route path="/hotesse-archives" element={<HotesseTables onLogout={handleLogout} archivesMode />} />
-                <Route path="/hotesse-clients" element={<ClientsPage selectedTheme="navy" COLOR_PALETTES={COLOR_PALETTES} />} />
+                <Route path="/hotesse-clients" element={<ClientsPage />} />
                 <Route path="/" element={<Navigate to="/hotesse" />} />
                 <Route path="*" element={<Navigate to="/hotesse" />} />
             </Routes>

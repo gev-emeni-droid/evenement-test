@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from '../hooks/useLocalStorage.js';
+import { COLOR_PALETTES } from '../themes.js';
 
-export default function ClientsPage({ selectedTheme, COLOR_PALETTES }) {
+export default function ClientsPage() {
+  const navigate = useNavigate();
+  const [selectedTheme] = useLocalStorage('hotesse_selected_theme', 'navy');
+  
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
@@ -79,15 +85,18 @@ export default function ClientsPage({ selectedTheme, COLOR_PALETTES }) {
   if (selectedClient && clientDetails) {
     return (
       <div className="p-6 bg-white rounded-lg">
-        <button
-          onClick={() => {
-            setSelectedClient(null);
-            setClientDetails(null);
-          }}
-          className="mb-4 px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50"
-        >
-          ← Retour à la liste
-        </button>
+        <div className="mb-6 flex items-center gap-3">
+          <button
+            onClick={() => {
+              setSelectedClient(null);
+              setClientDetails(null);
+            }}
+            style={{ backgroundColor: themeColor }}
+            className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
+          >
+            ← Retour à la liste
+          </button>
+        </div>
 
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">
@@ -165,12 +174,19 @@ export default function ClientsPage({ selectedTheme, COLOR_PALETTES }) {
 
   return (
     <div className="p-6 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
+        <button
+          onClick={() => navigate('/hotesse')}
+          className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: themeColor }}
+        >
+          ← Retour
+        </button>
         <h1 className="text-3xl font-bold">Fichiers Clients</h1>
         <button
           onClick={handleExport}
           style={{ backgroundColor: themeColor }}
-          className="px-4 py-2 text-white rounded hover:opacity-90"
+          className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
         >
           📥 Exporter CSV
         </button>
@@ -220,7 +236,7 @@ export default function ClientsPage({ selectedTheme, COLOR_PALETTES }) {
                       <button
                         onClick={() => fetchClientDetails(client.id)}
                         style={{ backgroundColor: themeColor }}
-                        className="px-3 py-1 text-white rounded text-sm hover:opacity-90"
+                        className="px-3 py-1 text-white rounded text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
                         disabled={loadingDetails}
                       >
                         Voir
@@ -241,14 +257,16 @@ export default function ClientsPage({ selectedTheme, COLOR_PALETTES }) {
               <button
                 onClick={() => fetchClients(page - 1)}
                 disabled={page === 1}
-                className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: themeColor }}
               >
                 ← Précédent
               </button>
               <button
                 onClick={() => fetchClients(page + 1)}
                 disabled={page >= totalPages}
-                className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: themeColor }}
               >
                 Suivant →
               </button>
