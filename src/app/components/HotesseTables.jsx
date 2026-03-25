@@ -1049,6 +1049,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     }
 
     try {
+      // Save client info to privatisation
       const res = await fetch(`/api/hotesse/privatisations/${encodeURIComponent(editingPriv.id)}/client-info`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -1061,13 +1062,36 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         })
       });
 
-      if (res.ok) {
-        alert('Infos client enregistrées avec succès !');
-        console.log('Client info saved successfully');
-      } else {
+      if (!res.ok) {
         alert('Erreur lors de l\'enregistrement des infos client');
         console.error('Failed to save client info:', res.status);
+        return;
       }
+
+      // Automatically create/update client record
+      try {
+        const clientRes = await fetch('/api/hotesse/clients', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            prenom: clientPrenom,
+            nom: clientNom,
+            telephone: clientTelephone,
+            mail: clientMail,
+            adresse_postale: clientAdresse,
+            entreprise: editingPriv.name || ''
+          })
+        });
+
+        if (!clientRes.ok) {
+          console.error('Warning: Failed to sync client record:', clientRes.status);
+        }
+      } catch (err) {
+        console.error('Warning: Error syncing client record:', err);
+      }
+
+      alert('Infos client enregistrées avec succès !');
+      console.log('Client info saved successfully');
     } catch (err) {
       alert('Erreur lors de l\'enregistrement: ' + err.message);
       console.error('Error saving client info:', err);
@@ -1663,6 +1687,14 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                 >
                   Créer un nouveau calendrier
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate('/hotesse-clients')}
+                  className="bg-white font-semibold py-2 px-5 rounded-lg shadow-sm hover:bg-gray-50 transition-all duration-200 text-sm"
+                  style={{ color: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
+                >
+                  Fichiers clients
                 </button>
                 <button
                   type="button"
