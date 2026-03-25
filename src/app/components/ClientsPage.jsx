@@ -17,9 +17,9 @@ export default function ClientsPage() {
 
   const themeColor = COLOR_PALETTES.find(p => p.id === selectedTheme)?.colors?.primary || '#163667';
 
-  // Load theme from API
+  // Load theme from API on mount
   useEffect(() => {
-    (async () => {
+    const loadTheme = async () => {
       try {
         const res = await fetch('/api/hotesse/theme');
         const data = await res.json();
@@ -29,7 +29,13 @@ export default function ClientsPage() {
       } catch (e) {
         console.error('Error loading theme:', e);
       }
-    })();
+    };
+
+    loadTheme();
+
+    // Poll for theme changes every 3 seconds to stay in sync
+    const interval = setInterval(loadTheme, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   // Fetch clients list

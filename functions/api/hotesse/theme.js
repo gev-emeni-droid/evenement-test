@@ -13,33 +13,38 @@ export const onRequestGet = async ({ env }) => {
       );
     `).run();
     
-    // Get first active calendar's theme
-    const cal = await env.DB.prepare(
+    // Get all active calendars sorted by creation time desc (most recent first)
+    const calendars = await env.DB.prepare(
       `SELECT id FROM hotesse_calendars 
        WHERE is_archived = 0 
-       ORDER BY created_at ASC LIMIT 1`
-    ).first();
+       ORDER BY created_at DESC`
+    ).all();
     
-    if (cal) {
-      const theme = await env.DB.prepare(
-        'SELECT theme_id FROM hotesse_theme_settings WHERE calendar_id = ?'
-      ).bind(cal.id).first();
-      
-      if (theme?.theme_id) {
-        return new Response(
-          JSON.stringify({ ok: true, theme_id: theme.theme_id }),
-          {
-            headers: {
-              'content-type': 'application/json',
-              'cache-control': 'no-store',
-              'access-control-allow-origin': '*',
-            },
-          }
-        );
+    // Try to find a calendar with a theme
+    if (calendars.results && calendars.results.length > 0) {
+      for (const cal of calendars.results) {
+        const theme = await env.DB.prepare(
+          'SELECT theme_id FROM hotesse_theme_settings WHERE calendar_id = ?'
+        ).bind(cal.id).first();
+        
+        if (theme?.theme_id) {
+          console.log(`Found theme: ${theme.theme_id} for calendar ${cal.id}`);
+          return new Response(
+            JSON.stringify({ ok: true, theme_id: theme.theme_id }),
+            {
+              headers: {
+                'content-type': 'application/json',
+                'cache-control': 'no-store',
+                'access-control-allow-origin': '*',
+              },
+            }
+          );
+        }
       }
     }
     
     // Default to navy if no theme found
+    console.log('No theme found, returning navy');
     return new Response(
       JSON.stringify({ ok: true, theme_id: 'navy' }),
       {
@@ -53,7 +58,7 @@ export const onRequestGet = async ({ env }) => {
   } catch (e) {
     console.error('Theme endpoint error:', e);
     return new Response(
-      JSON.stringify({ ok: false, error: e.message || 'error', theme_id: 'navy' }),
+      JSON.stringify({ ok: true, error: e.message || 'error', theme_id: 'navy' }),
       { status: 200, headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' } }
     );
   }
