@@ -622,8 +622,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Convertir en Base64 avec qualité réduite
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          // Convertir en Base64 avec meilleure qualité
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.9);
           setCustomLogo(compressedBase64);
           // Sauvegarder en BD
           saveLogo(compressedBase64);

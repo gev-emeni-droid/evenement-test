@@ -23,6 +23,9 @@ export async function onRequest(context) {
 
     // Utiliser le logo passé en paramètre, ou celui de la DB
     const finalLogo = logo || dbLogo;
+    
+    // Construire l'URL du logo API (accessible publiquement)
+    const logoUrl = finalLogo ? `${new URL(context.request.url).origin}/api/hotesse/logo` : null;
 
     // Construire le HTML du mail avec logo en bas au centre
     let htmlContent = `
@@ -56,7 +59,7 @@ export async function onRequest(context) {
                 <a href="${calendarUrl || '#'}" class="cta-button">Consulter le calendrier</a>
               </div>
               <div class="footer">
-                ${finalLogo ? `<div class="logo-container"><img src="${finalLogo}" alt="Logo" style="max-width: 120px; height: auto;"></div>` : ''}
+                ${logoUrl ? `<div class="logo-container"><img src="${logoUrl}" alt="Logo" style="max-width: 120px; height: auto;"></div>` : ''}
               </div>
             </div>
           </div>
