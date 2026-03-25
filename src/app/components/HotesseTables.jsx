@@ -1353,23 +1353,23 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">
                     Calendriers actifs
                   </div>
-                  <div className="mt-1 text-xl font-bold text-[#163667]">{activeCalendarsCount}</div>
+                  <div className="mt-1 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>{activeCalendarsCount}</div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg px-5 py-3 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow duration-200">
                   <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Calendriers archivés</div>
-                  <div className="mt-1 text-xl font-bold text-[#163667]">{archivedCalendarsCount}</div>
+                  <div className="mt-1 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>{archivedCalendarsCount}</div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg px-5 py-3 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow duration-200">
                   <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Privatisations totales</div>
-                  <div className="mt-1 text-xl font-bold text-[#163667]">{totalPrivatisationsAll}</div>
+                  <div className="mt-1 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>{totalPrivatisationsAll}</div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg px-5 py-3 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow duration-200">
                   <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Privat Restaurant</div>
-                  <div className="mt-1 text-xl font-bold text-[#163667]">{totalPrivRestaurantAll}</div>
+                  <div className="mt-1 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>{totalPrivRestaurantAll}</div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg px-5 py-3 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow duration-200">
                   <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Privat Plage</div>
-                  <div className="mt-1 text-xl font-bold text-[#163667]">{totalPrivPlageAll}</div>
+                  <div className="mt-1 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>{totalPrivPlageAll}</div>
                 </div>
               </div>
             </div>
@@ -1411,7 +1411,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                         className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-gray-300"
                       >
                         <div className="p-5">
-                          <h3 className="text-lg font-semibold text-[#163667] truncate" title={c.title}>{c.title}</h3>
+                          <h3 className="text-lg font-semibold truncate" style={{ color: 'var(--color-primary)' }} title={c.title}>{c.title}</h3>
                           <p className="text-xs text-gray-500 mt-1.5">{createdLabel}</p>
                           <div className="mt-3 space-y-0.5 text-gray-700">
                             <p className="text-sm"><strong className="font-semibold">Privatisations :</strong> {privCount}</p>
@@ -1423,7 +1423,13 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                             onClick={() => {
                               navigate(`/hotesse/${c.id}`);
                             }}
-                            className="bg-[#163667] text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-[#0f2851] transition-colors text-xs"
+                            className="font-semibold py-1.5 px-3 rounded-lg transition-colors text-xs"
+                            style={{
+                              backgroundColor: 'var(--color-primary)',
+                              color: 'var(--color-text-on-primary)'
+                            }}
+                            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                            onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                           >
                             Ouvrir
                           </button>
@@ -1431,7 +1437,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                             <button
                               type="button"
                               onClick={() => handleArchiveCalendar(c.id)}
-                              className="font-medium text-gray-600 hover:text-[#163667] transition-colors"
+                              className="font-medium transition-colors"
+                              style={{ color: 'var(--color-primary)' }}
                             >
                               Archiver
                             </button>
@@ -1460,7 +1467,19 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               <button
                 type="button"
                 onClick={() => navigate('/hotesse')}
-                className="bg-[#163667] text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition-all duration-200 text-lg"
+                className="font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 text-lg"
+                style={{
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'var(--color-text-on-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-primary-dark)';
+                  e.target.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-primary)';
+                  e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                }}
               >
                 ← Retour aux calendriers actifs
               </button>
@@ -1547,20 +1566,26 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   <button
                     type="button"
                     onClick={() => setFilterBleu(!filterBleu)}
-                    className={`px-3 py-2 text-sm ${filterBleu
-                      ? 'bg-[#163667] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
-                      }`}
+                    className="px-3 py-2 text-sm transition-colors"
+                    style={filterBleu ? {
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-text-on-primary)'
+                    } : {
+                      color: '#374151'
+                    }}
                   >
                     Restaurant
                   </button>
                   <button
                     type="button"
                     onClick={() => setFilterViolet(!filterViolet)}
-                    className={`px-3 py-2 text-sm ${filterViolet
-                      ? 'bg-[#163667] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
-                      }`}
+                    className="px-3 py-2 text-sm transition-colors"
+                    style={filterViolet ? {
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-text-on-primary)'
+                    } : {
+                      color: '#374151'
+                    }}
                   >
                     Plage
                   </button>
@@ -1571,14 +1596,26 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   <button
                     type="button"
                     onClick={() => { setViewMode('monthly'); setWeekIndex(0); }}
-                    className={`px-3 py-2 text-sm ${viewMode === 'monthly' ? 'bg-[#163667] text-white' : 'text-gray-700 hover:bg-gray-50'}`}
+                    className="px-3 py-2 text-sm transition-colors"
+                    style={viewMode === 'monthly' ? {
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-text-on-primary)'
+                    } : {
+                      color: '#374151'
+                    }}
                   >
                     Mensuel
                   </button>
                   <button
                     type="button"
                     onClick={() => { setViewMode('weekly'); setWeekIndex(0); }}
-                    className={`px-3 py-2 text-xs font-medium transition-colors ${viewMode === 'weekly' ? 'bg-[#163667] text-white rounded-lg' : 'text-gray-700 hover:bg-gray-100 rounded'}`}
+                    className="px-3 py-2 text-xs font-medium transition-colors rounded-lg"
+                    style={viewMode === 'weekly' ? {
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-text-on-primary)'
+                    } : {
+                      color: '#374151'
+                    }}
                   >
                     Hebdo
                   </button>
@@ -1588,14 +1625,24 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                     <button
                       type="button"
                       onClick={() => { setEditingPriv(null); setIsPrivModalOpen(true); setIsSettingsOpen(false); }}
-                      className="bg-[#163667] text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#0f2851] transition-colors text-xs"
+                      className="font-semibold py-2 px-4 rounded-lg transition-colors text-xs"
+                      style={{
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'var(--color-text-on-primary)'
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                     >
                       Ajouter une privatisation
                     </button>
                     <button
                       type="button"
                       onClick={handleOpenNotifModal}
-                      className="bg-white text-[#163667] font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors text-xs"
+                      className="font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors text-xs"
+                      style={{
+                        color: 'var(--color-primary)',
+                        borderColor: 'var(--color-primary)'
+                      }}
                     >
                       Envoyer une notification
                     </button>
@@ -2310,26 +2357,32 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-5 max-h-[85vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-lg font-semibold text-[#163667] mb-4">Paramètres des calendriers</h3>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-primary)' }}>Paramètres des calendriers</h3>
               {/* Onglets */}
               <div className="flex gap-1 border-b border-gray-200 mb-4">
                 <button
                   onClick={() => setSettingsActiveTab('profil')}
-                  className={`px-4 py-2.5 font-medium text-sm border-b-2 transition-colors ${
-                    settingsActiveTab === 'profil'
-                      ? 'border-[#163667] text-[#163667]'
-                      : 'border-transparent text-gray-600 hover:text-[#163667]'
-                  }`}
+                  className="px-4 py-2.5 font-medium text-sm border-b-2 transition-colors"
+                  style={settingsActiveTab === 'profil' ? {
+                    borderBottomColor: 'var(--color-primary)',
+                    color: 'var(--color-primary)'
+                  } : {
+                    borderBottomColor: 'transparent',
+                    color: '#4B5563'
+                  }}
                 >
                   Profil
                 </button>
                 <button
                   onClick={() => setSettingsActiveTab('staff')}
-                  className={`px-4 py-2.5 font-medium text-sm border-b-2 transition-colors ${
-                    settingsActiveTab === 'staff'
-                      ? 'border-[#163667] text-[#163667]'
-                      : 'border-transparent text-gray-600 hover:text-[#163667]'
-                  }`}
+                  className="px-4 py-2.5 font-medium text-sm border-b-2 transition-colors"
+                  style={settingsActiveTab === 'staff' ? {
+                    borderBottomColor: 'var(--color-primary)',
+                    color: 'var(--color-primary)'
+                  } : {
+                    borderBottomColor: 'transparent',
+                    color: '#4B5563'
+                  }}
                 >
                   Hôtesses & Commercial
                 </button>
@@ -2358,7 +2411,13 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                           <button
                             type="button"
                             onClick={handleSaveTitlePrefix}
-                            className="text-xs font-semibold py-1.5 px-3 rounded-lg bg-[#163667] text-white hover:bg-opacity-90"
+                            className="text-xs font-semibold py-1.5 px-3 rounded-lg"
+                            style={{
+                              backgroundColor: 'var(--color-primary)',
+                              color: 'var(--color-text-on-primary)'
+                            }}
+                            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                            onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                           >
                             Enregistrer le titre
                           </button>
@@ -2370,19 +2429,22 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                   <div>
                     <h4 className="text-xs font-semibold text-gray-700 mb-3">Palette de couleurs</h4>
                     
-                    {/* Grille de palettes classiques */}
-                    <div className="mb-4">
-                      <p className="text-xs text-gray-500 font-medium mb-2">Couleurs Classiques</p>
-                      <div className="grid grid-cols-4 gap-2 mb-3">
-                        {COLOR_PALETTES.filter(p => p.category === 'Classique').map(palette => (
+                    {/* Grille de palettes modernes */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-2">Thèmes Modernes</p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {COLOR_PALETTES.filter(p => p.category === 'Moderne').map(palette => (
                           <button
                             key={palette.id}
                             onClick={() => handleSaveTheme(palette.id)}
                             className={`p-3 rounded-lg border-2 transition-all duration-200 flex flex-col items-center gap-1 hover:shadow-md ${
                               selectedTheme === palette.id 
-                                ? 'border-gray-900 ring-2 ring-blue-400 shadow-lg' 
+                                ? 'border-gray-900 shadow-lg' 
                                 : 'border-gray-200 hover:border-gray-300'
                             }`}
+                            style={selectedTheme === palette.id ? { 
+                              boxShadow: `0 0 0 2px var(--color-primary)`
+                            } : {}}
                             title={palette.name}
                           >
                             <div 
@@ -2390,33 +2452,6 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                               style={{ backgroundColor: palette.primary }}
                             />
                             <span className="text-xs font-semibold text-gray-700 text-center leading-tight line-clamp-2">
-                              {palette.name}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Grille de palettes pastel */}
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium mb-2">Couleurs Pastel</p>
-                      <div className="grid grid-cols-4 gap-2">
-                        {COLOR_PALETTES.filter(p => p.category === 'Pastel').map(palette => (
-                          <button
-                            key={palette.id}
-                            onClick={() => handleSaveTheme(palette.id)}
-                            className={`p-2 rounded-lg border-2 transition-all duration-200 flex flex-col items-center gap-1 hover:shadow-md ${
-                              selectedTheme === palette.id 
-                                ? 'border-gray-900 ring-2 ring-blue-400 shadow-md' 
-                                : 'border-gray-200 hover:border-gray-300'
-                            }`}
-                            title={palette.name}
-                          >
-                            <div 
-                              className="w-9 h-9 rounded-md border border-gray-300"
-                              style={{ backgroundColor: palette.primary }}
-                            />
-                            <span className="text-xs font-semibold text-gray-700 text-center leading-tight line-clamp-1">
                               {palette.name}
                             </span>
                           </button>
@@ -2442,7 +2477,13 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                       />
                       <button
                         type="submit"
-                        className="bg-[#163667] text-white text-xs font-semibold py-2 px-3 rounded-lg hover:bg-opacity-90"
+                        className="text-xs font-semibold py-2 px-3 rounded-lg"
+                        style={{
+                          backgroundColor: 'var(--color-primary)',
+                          color: 'var(--color-text-on-primary)'
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                       >
                         Ajouter
                       </button>
@@ -2482,7 +2523,13 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                       />
                       <button
                         type="submit"
-                        className="bg-[#163667] text-white text-xs font-semibold py-2 px-3 rounded-lg hover:bg-opacity-90"
+                        className="text-xs font-semibold py-2 px-3 rounded-lg"
+                        style={{
+                          backgroundColor: 'var(--color-primary)',
+                          color: 'var(--color-text-on-primary)'
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
                       >
                         Ajouter
                       </button>

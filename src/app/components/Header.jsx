@@ -17,7 +17,7 @@ const Header = ({ title, onLogout }) => {
         </h1>
         <button
           onClick={onLogout}
-          className="text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors"
+          className="font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors"
           style={{ 
             backgroundColor: 'var(--color-primary)',
             color: 'var(--color-text-on-primary)'
