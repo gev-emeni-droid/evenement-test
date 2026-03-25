@@ -1043,7 +1043,10 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
 
   // Sauvegarder les infos client d'une privatisation
   const handleSaveClientInfo = async () => {
-    if (!editingPriv || !editingPriv.id) return;
+    if (!editingPriv || !editingPriv.id) {
+      alert('Erreur : pas de privatisation sélectionnée');
+      return;
+    }
 
     try {
       const res = await fetch(`/api/hotesse/privatisations/${encodeURIComponent(editingPriv.id)}/client-info`, {
@@ -1059,11 +1062,14 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
       });
 
       if (res.ok) {
+        alert('Infos client enregistrées avec succès !');
         console.log('Client info saved successfully');
       } else {
+        alert('Erreur lors de l\'enregistrement des infos client');
         console.error('Failed to save client info:', res.status);
       }
     } catch (err) {
+      alert('Erreur lors de l\'enregistrement: ' + err.message);
       console.error('Error saving client info:', err);
     }
   };
@@ -2728,7 +2734,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               {/* Onglet Documents */}
               {privModalActiveTab === 'documents' && (
                 <div className="space-y-4 mb-6">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50">
                     <input
                       type="file"
                       id="doc-upload"
@@ -2738,23 +2744,30 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                         if (file) {
                           handleUploadDocument(file);
                         }
+                        // Reset l'input pour pouvoir upload le même fichier à nouveau
+                        e.target.value = '';
                       }}
                       disabled={isUploadingDoc}
                     />
-                    <label htmlFor="doc-upload" className="cursor-pointer">
-                      <div className="text-gray-600 text-sm font-medium mb-2">
-                        {isUploadingDoc ? 'Upload en cours...' : 'Glissez un fichier ou cliquez pour le charger'}
-                      </div>
-                      {!isUploadingDoc && (
-                        <button
-                          type="button"
-                          onClick={() => document.getElementById('doc-upload')?.click()}
-                          className="text-xs text-[#163667] hover:underline"
-                        >
-                          Sélectionner un fichier
-                        </button>
-                      )}
-                    </label>
+                    <div className="mb-3">
+                      <p className="text-gray-600 text-sm font-medium">
+                        {isUploadingDoc ? '⏳ Upload en cours...' : '📄 Glissez un fichier ou cliquez pour le charger'}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('doc-upload')?.click()}
+                      disabled={isUploadingDoc}
+                      style={{
+                        backgroundColor: (() => {
+                          const palette = COLOR_PALETTES.find(p => p.id === selectedTheme);
+                          return palette?.colors?.primary || '#163667';
+                        })(),
+                      }}
+                      className="text-white text-sm font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                    >
+                      {isUploadingDoc ? 'Upload...' : 'Sélectionner un fichier'}
+                    </button>
                   </div>
 
                   {privDocuments.length > 0 && (
@@ -2798,11 +2811,21 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               </div>
 
               {/* Footer avec boutons communs */}
-              <div className="px-6 py-4 border-t border-gray-200 flex-shrink-0 flex justify-end gap-2">
+              <div className="px-6 py-4 border-t border-gray-200 flex-shrink-0 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsPrivModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                  style={{
+                    borderColor: (() => {
+                      const palette = COLOR_PALETTES.find(p => p.id === selectedTheme);
+                      return palette?.colors?.primary || '#163667';
+                    })(),
+                    color: (() => {
+                      const palette = COLOR_PALETTES.find(p => p.id === selectedTheme);
+                      return palette?.colors?.primary || '#163667';
+                    })(),
+                  }}
+                  className="px-4 py-2 rounded-lg border-2 font-medium transition-colors hover:opacity-80"
                 >
                   {privModalActiveTab === 'general' ? 'Annuler' : 'Fermer'}
                 </button>
