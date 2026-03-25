@@ -1230,8 +1230,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         {/* Modal notification de mise à jour */}
         {isNotifModalOpen && selectedCalendar && (
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-              <h3 className="text-lg font-semibold text-[#163667] mb-3">Envoyer une notification de mise à jour</h3>
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
               {notifContacts.length === 0 ? (
                 <div className="text-sm text-gray-600 mb-4">
                   Aucun contact n'est configuré pour les notifications. Ajoutez des contacts dans l'onglet Paramètres, puis réessayez.
@@ -2057,7 +2056,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         {/* Modal création calendrier */}
         {isCreateCalOpen && (
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
               <h3 className="text-lg font-semibold text-[#163667] mb-4">Créer un Calendrier Privat</h3>
               <form onSubmit={handleCreateCalendar} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div>
@@ -2106,8 +2105,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         {/* Modal ajout privatisation */}
         {isPrivModalOpen && selectedCalendar && (
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
-              <h3 className="text-lg font-semibold text-[#163667] mb-5">{editingPriv ? 'Modifier la privatisation' : 'Ajouter une privatisation'}</h3>
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 max-h-[80vh] overflow-y-auto">
+              <h3 className="text-lg font-semibold text-[#163667] mb-4">{editingPriv ? 'Modifier la privatisation' : 'Ajouter une privatisation'}</h3>
               <form onSubmit={handleAddPrivatisation} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                   <label className="block text-xs text-gray-700 mb-2 font-medium">Nom de la privat</label>
@@ -2303,7 +2302,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
             onClick={() => setIsSettingsOpen(false)}
           >
             <div
-              className="bg-white rounded-lg shadow-lg w-full max-w-lg p-5 max-h-[80vh] overflow-y-auto"
+              className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-5 max-h-[85vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-lg font-semibold text-[#163667] mb-4">Paramètres des calendriers</h3>
