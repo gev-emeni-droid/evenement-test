@@ -119,6 +119,126 @@ export const COLOR_PALETTES = [
     secondary: '#FFFFFF',
     accent: '#CFABA5',
     background: '#FFFAF8'
+  },
+  // PALETTE 13
+  {
+    id: 'teal-stone',
+    name: 'Teal & Pierre',
+    category: 'Moderne',
+    primary: '#4A919E',
+    secondary: '#FFFFFF',
+    accent: '#CCD5AE',
+    background: '#F3F9FA'
+  },
+  // PALETTE 14
+  {
+    id: 'rose-navy',
+    name: 'Rose & Marine',
+    category: 'Moderne',
+    primary: '#DB6A8F',
+    secondary: '#FFFFFF',
+    accent: '#212E53',
+    background: '#FAF5F7'
+  },
+  // PALETTE 15
+  {
+    id: 'teal-green',
+    name: 'Teal Émeraude',
+    category: 'Moderne',
+    primary: '#4AA3A2',
+    secondary: '#FFFFFF',
+    accent: '#E9EDC9',
+    background: '#F0F9F9'
+  },
+  // PALETTE 16
+  {
+    id: 'gray-lavender',
+    name: 'Gris & Lavande',
+    category: 'Moderne',
+    primary: '#939597',
+    secondary: '#FFFFFF',
+    accent: '#AFA4CE',
+    background: '#F7F6F8'
+  },
+  // PALETTE 17
+  {
+    id: 'earth-warm',
+    name: 'Terre Chaude',
+    category: 'Moderne',
+    primary: '#CA7C5C',
+    secondary: '#FFFFFF',
+    accent: '#A1A27E',
+    background: '#FAF6F3'
+  },
+  // PALETTE 18
+  {
+    id: 'mauve-taupe',
+    name: 'Mauve & Taupe',
+    category: 'Moderne',
+    primary: '#AD9C92',
+    secondary: '#FFFFFF',
+    accent: '#BA8383',
+    background: '#F9F7F6'
+  },
+  // PALETTE 19
+  {
+    id: 'coral-deep',
+    name: 'Corail Profond',
+    category: 'Moderne',
+    primary: '#B36A5E',
+    secondary: '#FFFFFF',
+    accent: '#1C0F12',
+    background: '#FEF6F4'
+  },
+  // PALETTE 20
+  {
+    id: 'rose-burgundy',
+    name: 'Rose Bourgogne',
+    category: 'Moderne',
+    primary: '#C96A72',
+    secondary: '#FFFFFF',
+    accent: '#84033C',
+    background: '#FAF5F6'
+  },
+  // PALETTE 21
+  {
+    id: 'blush-soft',
+    name: 'Rose Blush',
+    category: 'Moderne',
+    primary: '#FFCBCC',
+    secondary: '#FFFFFF',
+    accent: '#84033C',
+    background: '#FEF7F7'
+  },
+  // PALETTE 22
+  {
+    id: 'sage-soft',
+    name: 'Sage Doux',
+    category: 'Moderne',
+    primary: '#E7D4C8',
+    secondary: '#FFFFFF',
+    accent: '#BA8383',
+    background: '#FAF8F7'
+  },
+  // PALETTE 23
+  {
+    id: 'teal-combo',
+    name: 'Teal Mix',
+    category: 'Moderne',
+    primary: '#A7E0E0',
+    secondary: '#FFFFFF',
+    accent: '#B0CFD3',
+    background: '#F0FAFB'
+  },
+  // PALETTE 24
+  {
+    id: 'gold-accent',
+    name: 'Or Accent',
+    category: 'Moderne',
+    primary: '#F5DF4D',
+    secondary: '#FFFFFF',
+    accent: '#1C0F12',
+    background: '#FFFCF0'
   }
 ];
 
