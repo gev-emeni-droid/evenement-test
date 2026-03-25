@@ -91,6 +91,16 @@ async function handleGet(db, clientId) {
       privatisations.push({
         ...priv,
         documents: mappedDocs
+      });
+    }
+
+    return new Response(JSON.stringify({
+      client,
+      privatisations
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   } catch (error) {
     console.error('Error fetching client details:', error);
     return new Response(JSON.stringify({ error: error.message }), {
