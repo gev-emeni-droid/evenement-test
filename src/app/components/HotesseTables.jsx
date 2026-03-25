@@ -2303,7 +2303,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
             onClick={() => setIsSettingsOpen(false)}
           >
             <div
-              className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6"
+              className="bg-white rounded-lg shadow-lg w-full max-w-md p-5 max-h-[75vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-lg font-semibold text-[#163667] mb-4">Paramètres des calendriers</h3>
