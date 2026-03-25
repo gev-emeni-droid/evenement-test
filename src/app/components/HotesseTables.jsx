@@ -96,7 +96,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
   // Autocomplete state for clients
   const [clientSearchResults, setClientSearchResults] = useState([]);
   const [showClientSearch, setShowClientSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [clientSearchQuery, setClientSearchQuery] = useState('');
 
   // Form state pour Documents
   const [privDocuments, setPrivDocuments] = useState([]);
@@ -1197,7 +1197,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     setClientMail(client.mail || '');
     setClientTelephone(client.telephone || '');
     setClientAdresse(client.adresse_postale || '');
-    setSearchQuery(`${client.prenom} ${client.nom}`);
+    setClientSearchQuery(`${client.prenom} ${client.nom}`);
     setShowClientSearch(false);
     setClientSearchResults([]);
   };
@@ -2756,12 +2756,12 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                         type="text"
                         placeholder="Tapez nom ou prénom..."
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#163667]"
-                        value={searchQuery}
+                        value={clientSearchQuery}
                         onChange={(e) => {
-                          setSearchQuery(e.target.value);
+                          setClientSearchQuery(e.target.value);
                           searchClients(e.target.value);
                         }}
-                        onFocus={() => searchQuery.trim() && searchClients(searchQuery)}
+                        onFocus={() => clientSearchQuery.trim() && searchClients(clientSearchQuery)}
                       />
                       {showClientSearch && clientSearchResults.length > 0 && (
                         <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto">
