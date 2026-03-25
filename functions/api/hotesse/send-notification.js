@@ -21,7 +21,7 @@ export async function onRequest(context) {
     const senderEmail = settingsRes?.sender_email || SENDER_EMAIL;
     
     // URL du logo hébergé dans public/
-    const logoUrl = `${new URL(context.request.url).origin}/UwFsj.jpg`;
+    const logoUrl = `${new URL(context.request.url).origin}/logo.jpg`;
 
     // Construire le HTML du mail avec logo en bas au centre
     let htmlContent = `
