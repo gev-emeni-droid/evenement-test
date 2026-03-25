@@ -59,7 +59,7 @@ const ResetPassword = () => {
 
   const handleBackToLogin = () => {
     // Redirection explicite vers le portail de connexion principal
-    window.location.href = 'https://tableauxgenerator.l-iamani.com';
+    window.location.href = 'https://polpo.connexion.l-iamani.com/';
   };
 
   return (
