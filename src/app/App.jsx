@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useLocalStorage } from './hooks/useLocalStorage.js';
+import { getStoredTheme, applyTheme } from './themes.js';
 import Dashboard from './components/Dashboard.jsx';
 import Archives from './components/Archives.jsx';
 import TableauView from './components/TableauView.jsx';
@@ -11,6 +12,12 @@ const App = () => {
     const authRole = 'hotesse';
     const [tables, setTables] = useLocalStorage("all_tables_v1", []);
     const navigate = useNavigate();
+
+    // Load and apply theme on mount
+    useEffect(() => {
+        const theme = getStoredTheme();
+        applyTheme(theme);
+    }, []);
 
     const handleLogout = useCallback(() => {
         window.location.href = 'https://polpo.connexion.l-iamani.com/';

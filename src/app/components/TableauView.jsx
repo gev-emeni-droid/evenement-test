@@ -163,6 +163,17 @@ const TableauView = ({ allTables, updateTable, onLogout, updateTableTitle }) => 
     } catch (_) {}
   };
 
+  const handleSaveTheme = async (themeId) => {
+    if (!currentTable) return;
+    try {
+      await fetch(`/api/tables/${encodeURIComponent(currentTable.id)}/theme`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ theme_id: themeId })
+      });
+    } catch (_) {}
+  };
+
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -709,6 +720,8 @@ const TableauView = ({ allTables, updateTable, onLogout, updateTableTitle }) => 
               currentTitle={currentTable.title}
               onSaveTitle={(title) => updateTableTitle(currentTable.id, title)}
               onSaveSettings={handleSaveSettings}
+              tableId={currentTable.id}
+              onSaveTheme={handleSaveTheme}
             />
           </ErrorBoundary>
         )}

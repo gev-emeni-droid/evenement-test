@@ -26,6 +26,13 @@ const ensureSchema = async (db) => {
       updated_at TEXT NOT NULL
     );
   `).run();
+  await db.prepare(`
+    CREATE TABLE IF NOT EXISTS theme_settings (
+      table_id TEXT PRIMARY KEY,
+      theme_id TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `).run();
 };
 
 export const onRequestGet = async ({ env, request }) => {
