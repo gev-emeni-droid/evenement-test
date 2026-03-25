@@ -1821,66 +1821,70 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
                 <p className="text-gray-500 mt-2">Votre recherche pour "{searchQuery}" n'a retourné aucun résultat.</p>
               </div>
             ) : (
-              <div className="space-y-4 mb-8">
-                <p className="text-sm font-semibold text-gray-700">Calendriers actifs</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredActiveCalendars.map((c) => {
-                    const createdAt = c.createdAt ? new Date(c.createdAt) : new Date(c.year, c.month || 0, 1);
-                    const createdLabel = `Créé le: ${createdAt.toLocaleDateString('fr-FR')}`;
-                    const privCount = typeof c.priv_count === 'number'
-                      ? c.priv_count
-                      : (Array.isArray(c.privatisations) ? c.privatisations.length : 0);
-                    return (
-                      <div
-                        key={c.id}
-                        className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-gray-300"
-                      >
-                        <div className="p-5">
-                          <h3 className="text-lg font-semibold truncate" style={{ color: '#000000' }} title={c.title}>{c.title}</h3>
-                          <p className="text-xs text-gray-500 mt-1.5">{createdLabel}</p>
-                          <div className="mt-3 space-y-0.5 text-gray-700">
-                            <p className="text-sm"><strong className="font-semibold">Privatisations :</strong> {privCount}</p>
-                          </div>
-                        </div>
-                        <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-200">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              navigate(`/hotesse/${c.id}`);
-                            }}
-                            className="font-semibold py-1.5 px-3 rounded-lg transition-colors text-xs"
-                            style={{
-                              backgroundColor: 'var(--color-primary)',
-                              color: 'var(--color-text-on-primary)'
-                            }}
-                            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
-                            onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
+              <>
+                {themeLoaded && (
+                  <div className="space-y-4 mb-8">
+                    <p className="text-sm font-semibold text-gray-700">Calendriers actifs</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {filteredActiveCalendars.map((c) => {
+                        const createdAt = c.createdAt ? new Date(c.createdAt) : new Date(c.year, c.month || 0, 1);
+                        const createdLabel = `Créé le: ${createdAt.toLocaleDateString('fr-FR')}`;
+                        const privCount = typeof c.priv_count === 'number'
+                          ? c.priv_count
+                          : (Array.isArray(c.privatisations) ? c.privatisations.length : 0);
+                        return (
+                          <div
+                            key={c.id}
+                            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-gray-300"
                           >
-                            Ouvrir
-                          </button>
-                          <div className="flex items-center gap-4 text-xs">
-                            <button
-                              type="button"
-                              onClick={() => handleArchiveCalendar(c.id)}
-                              className="font-medium transition-colors"
-                              style={{ color: 'var(--color-primary)' }}
-                            >
-                              Archiver
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteCalendar(c.id)}
-                              className="font-medium text-red-600 hover:text-red-700 transition-colors"
-                            >
-                              Supprimer
-                            </button>
+                            <div className="p-5">
+                              <h3 className="text-lg font-semibold truncate" style={{ color: '#000000' }} title={c.title}>{c.title}</h3>
+                              <p className="text-xs text-gray-500 mt-1.5">{createdLabel}</p>
+                              <div className="mt-3 space-y-0.5 text-gray-700">
+                                <p className="text-sm"><strong className="font-semibold">Privatisations :</strong> {privCount}</p>
+                              </div>
+                            </div>
+                            <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-200">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigate(`/hotesse/${c.id}`);
+                                }}
+                                className="font-semibold py-1.5 px-3 rounded-lg transition-colors text-xs"
+                                style={{
+                                  backgroundColor: 'var(--color-primary)',
+                                  color: 'var(--color-text-on-primary)'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary-dark)'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-primary)'}
+                              >
+                                Ouvrir
+                              </button>
+                              <div className="flex items-center gap-4 text-xs">
+                                <button
+                                  type="button"
+                                  onClick={() => handleArchiveCalendar(c.id)}
+                                  className="font-medium transition-colors"
+                                  style={{ color: 'var(--color-primary)' }}
+                                >
+                                  Archiver
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteCalendar(c.id)}
+                                  className="font-medium text-red-600 hover:text-red-700 transition-colors"
+                                >
+                                  Supprimer
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </section>
         )}
