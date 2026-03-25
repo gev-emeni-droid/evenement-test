@@ -1,10 +1,15 @@
 export async function onRequest(context) {
   const { request } = context;
-  const { searchParams } = new URL(request.url);
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const { searchParams } = url;
+  
+  // Extraire privId du path: /api/hotesse/privatisations/PRIVID/document
+  const privId = pathParts[4];
   const docId = searchParams.get('doc_id');
 
-  if (!docId) {
-    return new Response(JSON.stringify({ error: 'doc_id is required' }), {
+  if (!privId || !docId) {
+    return new Response(JSON.stringify({ error: 'priv_id and doc_id are required' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -17,8 +22,8 @@ export async function onRequest(context) {
       const document = await db.prepare(
         `SELECT id, file_name, file_data, mime_type 
          FROM hotesse_privatisations_documents 
-         WHERE id = ?`
-      ).bind(docId).first();
+         WHERE id = ? AND priv_id = ?`
+      ).bind(docId, privId).first();
 
       if (!document) {
         return new Response(JSON.stringify({ error: 'Document not found' }), {

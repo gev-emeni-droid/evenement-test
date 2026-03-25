@@ -1,7 +1,11 @@
 export async function onRequest(context) {
   const { request } = context;
-  const { searchParams } = new URL(request.url);
-  const privId = searchParams.get('priv_id');
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const { searchParams } = url;
+  
+  // Extraire privId du path: /api/hotesse/privatisations/PRIVID/documents
+  const privId = pathParts[4];
   const docId = searchParams.get('doc_id');
 
   if (!privId) {

@@ -1,7 +1,11 @@
 export async function onRequest(context) {
   const { request } = context;
-  const { searchParams } = new URL(request.url);
-  const privId = searchParams.get('priv_id');
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  
+  // Extraire privId du path: /api/hotesse/privatisations/PRIVID/client-info
+  // Index positions: ['', 'api', 'hotesse', 'privatisations', 'PRIVID', 'client-info']
+  const privId = pathParts[4];
 
   if (!privId) {
     return new Response(JSON.stringify({ error: 'priv_id is required' }), {
