@@ -4,11 +4,20 @@ export const onRequestGet = async ({ env }) => {
   try {
     await ensureHotesseSchema(env.DB);
     
+    // Ensure theme settings table exists
+    await env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS hotesse_theme_settings (
+        calendar_id TEXT PRIMARY KEY,
+        theme_id TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );
+    `).run();
+    
     // Get first active calendar's theme
     const cal = await env.DB.prepare(
-      `SELECT hc.id FROM hotesse_calendars hc 
-       WHERE hc.is_archived = 0 
-       ORDER BY hc.created_at ASC LIMIT 1`
+      `SELECT id FROM hotesse_calendars 
+       WHERE is_archived = 0 
+       ORDER BY created_at ASC LIMIT 1`
     ).first();
     
     if (cal) {
@@ -16,7 +25,7 @@ export const onRequestGet = async ({ env }) => {
         'SELECT theme_id FROM hotesse_theme_settings WHERE calendar_id = ?'
       ).bind(cal.id).first();
       
-      if (theme) {
+      if (theme?.theme_id) {
         return new Response(
           JSON.stringify({ ok: true, theme_id: theme.theme_id }),
           {
@@ -42,9 +51,10 @@ export const onRequestGet = async ({ env }) => {
       }
     );
   } catch (e) {
+    console.error('Theme endpoint error:', e);
     return new Response(
       JSON.stringify({ ok: false, error: e.message || 'error', theme_id: 'navy' }),
-      { status: 500, headers: { 'content-type': 'application/json' } }
+      { status: 200, headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' } }
     );
   }
 };
