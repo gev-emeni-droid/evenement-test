@@ -1590,8 +1590,9 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header title={headerTitle} onLogout={onLogout} customLogo={customLogo} />
-      <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        {isFullPage && selectedCalendar && (
+      {themeLoaded && (
+        <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+          {isFullPage && selectedCalendar && (
           <>
             <div className="flex justify-center mb-1 print:hidden">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-xl">
@@ -3366,7 +3367,8 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
         )}
 
 
-      </main>
+        </main>
+      )}
     </div>
   );
 };
