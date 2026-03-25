@@ -595,10 +595,40 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const base64 = event.target?.result;
-        setCustomLogo(base64);
-        // Sauvegarder en BD
-        saveLogo(base64);
+        const img = new Image();
+        img.onload = () => {
+          // Créer un canvas pour compresser l'image
+          const canvas = document.createElement('canvas');
+          const maxWidth = 200;
+          const maxHeight = 200;
+          let width = img.width;
+          let height = img.height;
+
+          // Calculer les nouvelles dimensions
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convertir en Base64 avec qualité réduite
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          setCustomLogo(compressedBase64);
+          // Sauvegarder en BD
+          saveLogo(compressedBase64);
+        };
+        img.src = event.target?.result;
       } catch (err) {
         console.error('Error reading file', err);
       }
