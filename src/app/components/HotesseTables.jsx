@@ -687,7 +687,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
     
     // Récupérer la couleur du thème actuel
     const currentPalette = COLOR_PALETTES.find(p => p.id === selectedTheme);
-    const themeColor = currentPalette?.colors.primary || '#007bff';
+    const themeColor = currentPalette?.colors?.primary || '#007bff';
 
     const contactsToNotify = notifContacts.filter((c) => selectedNotifIds.includes(c.id));
     

@@ -16,12 +16,10 @@ export async function onRequest(context) {
     const RESEND_API_KEY = context.env.RESEND_API_KEY;
     const SENDER_EMAIL = 'notifications@l-iamani.com';
     
-    // Récupérer l'adresse mail du client depuis la DB
-    const settingsRes = await context.env.DB.prepare('SELECT sender_email FROM hotesse_settings WHERE id = ?').bind('global').first();
+    // Récupérer l'adresse mail et le logo du client depuis la DB
+    const settingsRes = await context.env.DB.prepare('SELECT sender_email, custom_logo FROM hotesse_settings WHERE id = ?').bind('global').first();
     const senderEmail = settingsRes?.sender_email || SENDER_EMAIL;
-    
-    // URL du logo hébergé dans public/
-    const logoUrl = `${new URL(context.request.url).origin}/logo.jpg`;
+    const logoUrl = settingsRes?.custom_logo || null;
 
     // Construire le HTML du mail avec logo en bas au centre
     let htmlContent = `
@@ -55,7 +53,7 @@ export async function onRequest(context) {
                 <a href="${calendarUrl || '#'}" class="cta-button">Consulter le calendrier</a>
               </div>
               <div class="footer">
-                <div class="logo-container"><img src="${logoUrl}" alt="Logo" style="max-width: 100px; height: auto; display: block; margin: 0 auto;"></div>
+                ${logoUrl ? `<div class="logo-container"><img src="${logoUrl}" alt="Logo" style="max-width: 100px; height: auto; display: block; margin: 0 auto;"></div>` : ''}
               </div>
             </div>
           </div>
