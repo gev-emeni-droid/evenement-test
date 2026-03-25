@@ -1,22 +1,22 @@
 :root {
   /* Legacy variables - kept for compatibility */
-  --brand: #cccccc;
+  --brand: #163667;
   --ink: #0b132b;
   --muted: #6b7280;
   --bg: #f4f7fb;
   --card: #ffffff;
   --line: #e5e7eb;
-  --primary: #cccccc;
+  --primary: #0284c7;
   --green: #16a34a;
   --red: #dc2626;
 
-  /* Dynamic theme variables - initialized as neutral gray, overridden by applyTheme() */
-  --color-primary: #cccccc;
-  --color-primary-dark: #999999;
+  /* Dynamic theme variables - updated by applyTheme() */
+  --color-primary: #163667;
+  --color-primary-dark: #0f2851;
   --color-secondary: #FFFFFF;
-  --color-accent: #999999;
+  --color-accent: #E74C3C;
   --color-background: #F5F5F5;
-  --color-text-on-primary: #333333;
+  --color-text-on-primary: #FFFFFF;
 }
 
 /* Dynamic color utility classes */
