@@ -2750,7 +2750,7 @@ const HotesseTables = ({ onLogout, archivesMode = false }) => {
               {privModalActiveTab === 'infos_client' && (
                 <div className="space-y-4 mb-6">
                   <div>
-                    <label className="block text-xs text-gray-700 mb-2 font-medium">🔍 RECHERCHER UN CLIENT</label>
+                    <label className="block text-xs text-gray-700 mb-2 font-medium">RECHERCHER UN CLIENT</label>
                     <div className="relative">
                       <input
                         type="text"

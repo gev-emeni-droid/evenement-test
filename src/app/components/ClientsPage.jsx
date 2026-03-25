@@ -92,73 +92,75 @@ export default function ClientsPage() {
               setClientDetails(null);
             }}
             style={{ backgroundColor: themeColor }}
-            className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
+            className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity font-medium"
           >
             ← Retour à la liste
           </button>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">
+        <div className="mb-8 pb-6 border-b" style={{ borderColor: `${themeColor}33` }}>
+          <h2 className="text-3xl font-bold mb-6" style={{ color: themeColor }}>
             {clientDetails.client.prenom} {clientDetails.client.nom}
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6 bg-gray-50 p-6 rounded-lg">
             <div>
-              <label className="text-sm text-gray-500">Téléphone</label>
-              <p className="font-medium">{clientDetails.client.telephone}</p>
+              <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Téléphone</label>
+              <p className="font-medium text-gray-800 mt-1">{clientDetails.client.telephone}</p>
             </div>
             <div>
-              <label className="text-sm text-gray-500">Mail</label>
-              <p className="font-medium">{clientDetails.client.mail || '-'}</p>
+              <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Mail</label>
+              <p className="font-medium text-gray-800 mt-1">{clientDetails.client.mail || '-'}</p>
             </div>
             <div>
-              <label className="text-sm text-gray-500">Entreprise</label>
-              <p className="font-medium">{clientDetails.client.entreprise || '-'}</p>
+              <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Entreprise</label>
+              <p className="font-medium text-gray-800 mt-1">{clientDetails.client.entreprise || '-'}</p>
             </div>
             <div className="md:col-span-2">
-              <label className="text-sm text-gray-500">Adresse</label>
-              <p className="font-medium">{clientDetails.client.adresse_postale || '-'}</p>
+              <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Adresse</label>
+              <p className="font-medium text-gray-800 mt-1">{clientDetails.client.adresse_postale || '-'}</p>
             </div>
           </div>
         </div>
 
-        <h3 className="text-xl font-bold mb-4">Historique des privatisations ({clientDetails.privatisations.length})</h3>
+        <h3 className="text-2xl font-bold mb-4" style={{ color: themeColor }}>
+          Historique des privatisations ({clientDetails.privatisations.length})
+        </h3>
         
         {clientDetails.privatisations.length === 0 ? (
-          <p className="text-gray-500">Aucune privatisation pour ce client</p>
+          <p className="text-gray-500 text-center py-8">Aucune privatisation pour ce client</p>
         ) : (
           <div className="space-y-4">
             {clientDetails.privatisations.map((priv) => (
-              <div key={priv.id} className="border border-gray-200 rounded-lg p-4">
+              <div key={priv.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow" style={{ borderColor: `${themeColor}40`, backgroundColor: `${themeColor}08` }}>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
                   <div>
-                    <label className="text-xs text-gray-500 uppercase">Nom</label>
-                    <p className="font-medium">{priv.name}</p>
+                    <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Nom</label>
+                    <p className="font-medium text-gray-800 mt-1">{priv.name}</p>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500 uppercase">Date</label>
-                    <p className="font-medium">{priv.date}</p>
+                    <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Date</label>
+                    <p className="font-medium text-gray-800 mt-1">{priv.date}</p>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500 uppercase">Personnes</label>
-                    <p className="font-medium">{priv.people || '-'}</p>
+                    <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Personnes</label>
+                    <p className="font-medium text-gray-800 mt-1">{priv.people || '-'}</p>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500 uppercase">Période</label>
-                    <p className="font-medium">{priv.period}</p>
+                    <label className="text-xs font-semibold uppercase" style={{ color: themeColor }}>Période</label>
+                    <p className="font-medium text-gray-800 mt-1">{priv.period}</p>
                   </div>
                 </div>
 
                 {priv.documents.length > 0 && (
-                  <div className="mt-3 pt-3 border-t">
-                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                  <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${themeColor}40` }}>
+                    <label className="text-sm font-semibold text-gray-700 block mb-2" style={{ color: themeColor }}>
                       Documents ({priv.documents.length})
                     </label>
                     <div className="space-y-2">
                       {priv.documents.map((doc) => (
-                        <div key={doc.id} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                        <div key={doc.id} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: `${themeColor}10` }}>
                           <span className="text-sm text-gray-700">{doc.file_name}</span>
-                          <span className="text-xs text-gray-500">{(doc.file_size / 1024).toFixed(2)} KB</span>
+                          <span className="text-xs font-medium" style={{ color: themeColor }}>{(doc.file_size / 1024).toFixed(2)} KB</span>
                         </div>
                       ))}
                     </div>
@@ -174,21 +176,14 @@ export default function ClientsPage() {
 
   return (
     <div className="p-6 bg-white rounded-lg">
-      <div className="mb-6 flex items-center justify-between">
-        <button
-          onClick={() => navigate('/hotesse')}
-          className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: themeColor }}
-        >
-          ← Retour
-        </button>
-        <h1 className="text-3xl font-bold">Fichiers Clients</h1>
+      <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h1 className="text-4xl font-bold" style={{ color: themeColor }}>Fichiers Clients</h1>
         <button
           onClick={handleExport}
           style={{ backgroundColor: themeColor }}
-          className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity"
+          className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity font-medium whitespace-nowrap"
         >
-          📥 Exporter CSV
+          Exporter CSV
         </button>
       </div>
 
@@ -201,8 +196,13 @@ export default function ClientsPage() {
             setSearch(e.target.value);
             setPage(1);
           }}
-          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2"
-          style={{ '--focus-ring-color': themeColor }}
+          className="w-full px-4 py-3 border-2 rounded lg focus:outline-none transition-colors"
+          style={{ 
+            borderColor: '#d1d5db',
+            '--tw-ring-color': themeColor
+          }}
+          onFocus={(e) => e.target.style.borderColor = themeColor}
+          onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
         />
       </div>
 
@@ -213,30 +213,30 @@ export default function ClientsPage() {
       ) : (
         <>
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full border-collapse mb-6">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Prénom</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Téléphone</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Mail</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Entreprise</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Action</th>
+                <tr style={{ backgroundColor: themeColor }}>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Prénom</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Nom</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Téléphone</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Mail</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Entreprise</th>
+                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {clients.map((client) => (
-                  <tr key={client.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm">{client.prenom}</td>
-                    <td className="px-4 py-3 text-sm font-medium">{client.nom}</td>
-                    <td className="px-4 py-3 text-sm">{client.telephone}</td>
+                  <tr key={client.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-sm text-gray-800">{client.prenom}</td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-800">{client.nom}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">{client.telephone}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">{client.mail || '-'}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">{client.entreprise || '-'}</td>
                     <td className="px-4 py-3 text-center">
                       <button
                         onClick={() => fetchClientDetails(client.id)}
                         style={{ backgroundColor: themeColor }}
-                        className="px-3 py-1 text-white rounded text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+                        className="px-3 py-1 text-white rounded text-sm hover:opacity-90 transition-opacity disabled:opacity-50 font-medium"
                         disabled={loadingDetails}
                       >
                         Voir
@@ -249,15 +249,15 @@ export default function ClientsPage() {
           </div>
 
           {/* Pagination */}
-          <div className="mt-6 flex justify-between items-center">
-            <p className="text-sm text-gray-600">
-              Page {page} sur {totalPages}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-lg" style={{ backgroundColor: `${themeColor}08` }}>
+            <p className="text-sm font-medium text-gray-700">
+              Page <span style={{ color: themeColor }} className="font-bold">{page}</span> sur <span style={{ color: themeColor }} className="font-bold">{totalPages}</span>
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => fetchClients(page - 1)}
                 disabled={page === 1}
-                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity font-medium"
                 style={{ backgroundColor: themeColor }}
               >
                 ← Précédent
@@ -265,12 +265,23 @@ export default function ClientsPage() {
               <button
                 onClick={() => fetchClients(page + 1)}
                 disabled={page >= totalPages}
-                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                className="px-4 py-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity font-medium"
                 style={{ backgroundColor: themeColor }}
               >
                 Suivant →
               </button>
             </div>
+          </div>
+
+          {/* Back Button */}
+          <div className="mt-6">
+            <button
+              onClick={() => navigate('/hotesse')}
+              className="px-4 py-2 text-white rounded hover:opacity-90 transition-opacity font-medium"
+              style={{ backgroundColor: themeColor }}
+            >
+              ← Retour à la page précédente
+            </button>
           </div>
         </>
       )}
