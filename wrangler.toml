@@ -14,4 +14,3 @@ binding = "AI"
 [vars]
 ZENCHEF_TEXT_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
 ZENCHEF_IMPORT_MODEL = "@cf/llava-hf/llava-1.5-7b-hf" # pour le mode image, même si instable
-RESEND_API_KEY = "re_45xe4Wsj_8ba8T2i9nc9Nw5egyKPWJJiq"
