@@ -8,9 +8,4 @@ binding = "DB"                            # Name used in your code: env.DB
 database_name = "evenement-test"          # NEW database
 database_id = "e43ca145-7560-47c1-a011-930928ce1740"
 
-[ai]
-binding = "AI"
-
 [vars]
-ZENCHEF_TEXT_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
-ZENCHEF_IMPORT_MODEL = "@cf/llava-hf/llava-1.5-7b-hf" # pour le mode image, même si instable
